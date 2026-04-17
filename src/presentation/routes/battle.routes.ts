@@ -6,6 +6,8 @@ export class BattleRoutes {
     const router = Router();
 
     router.post("/join", battleController.join);
+    router.post("/assign-pokemons", battleController.assignPokemons);
+    router.post("/ready", battleController.setReady);
 
     return router;
   }

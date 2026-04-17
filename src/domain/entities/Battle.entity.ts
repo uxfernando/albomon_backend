@@ -1,5 +1,6 @@
 import { BattleStatus } from "../../shared/enums/Battle.enum";
 import { PlayerEntity } from "./Player.entity";
+import { DomainError } from "../../shared/errors/AppError";
 
 export class BattleEntity {
   public readonly id: string;
@@ -21,27 +22,44 @@ export class BattleEntity {
 
   public addPlayer(player: PlayerEntity): void {
     if (this.players.length >= 2) {
-      throw new Error("Battle already has 2 players.");
+      throw new DomainError("Battle already has 2 players.");
     }
+
+    const nicknameExists = this.players.some(
+      (p) => p.nickname === player.nickname,
+    );
+
+    if (nicknameExists) {
+      throw new DomainError(
+        `Player with nickname '${player.nickname}' is already in the battle.`,
+      );
+    }
+
     this.players.push(player);
-    if (this.players.length === 2) {
-      this.status = BattleStatus.Ready;
-    }
   }
 
   public setReady(playerNickname: string): void {
     const player = this.players.find((p) => p.nickname === playerNickname);
-    if (player) {
-      player.isReady = true;
+    if (!player) {
+      throw new DomainError(
+        `Player with nickname '${playerNickname}' not found in the battle.`,
+      );
     }
-    if (this.players.length === 2 && this.players.every((p) => p.isReady)) {
-      this.startBattle();
-    }
-  }
 
-  private startBattle(): void {
-    this.status = BattleStatus.Battling;
-    this.determineInitiative();
+    if (player.pokemonTeam.length === 0) {
+      throw new DomainError("Player has no Pokemon team assigned.");
+    }
+
+    if (player.isReady) {
+      throw new DomainError("Player is already ready.");
+    }
+
+    player.isReady = true;
+
+    if (this.players.length === 2 && this.players.every((p) => p.isReady)) {
+      this.status = BattleStatus.Ready;
+      this.determineInitiative();
+    }
   }
 
   private determineInitiative(): void {
@@ -56,12 +74,19 @@ export class BattleEntity {
     }
   }
 
+  public startBattle(): void {
+    if (this.status !== BattleStatus.Ready) {
+      throw new DomainError("Battle is not ready to start.");
+    }
+    this.status = BattleStatus.Battling;
+  }
+
   public executeAttack(attackerNickname: string): void {
     if (this.status !== "battling") {
-      throw new Error("Battle is not in progress.");
+      throw new DomainError("Battle is not in progress.");
     }
     if (this.currentTurnPlayerId !== attackerNickname) {
-      throw new Error("It's not this player's turn.");
+      throw new DomainError("It's not this player's turn.");
     }
 
     const attacker = this.players.find((p) => p.nickname === attackerNickname);

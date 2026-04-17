@@ -1,4 +1,5 @@
 import { PokemonEntity } from "./Pokemon.entity";
+import { DomainError } from "../../shared/errors/AppError";
 
 export class PlayerEntity {
   public readonly nickname: string;
@@ -11,7 +12,7 @@ export class PlayerEntity {
     isReady: boolean = false,
   ) {
     if (pokemonTeam.length > 3) {
-      throw new Error("A player can have a maximum of 3 Pokemons.");
+      throw new DomainError("A player can have a maximum of 3 Pokemons.");
     }
 
     this.nickname = nickname;
