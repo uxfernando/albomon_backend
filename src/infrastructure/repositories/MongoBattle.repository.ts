@@ -63,4 +63,8 @@ export class MongoBattleRepository implements IBattleRepository {
       upsert: true,
     });
   }
+
+  async delete(id: string): Promise<void> {
+    await BattleModel.deleteOne({ id });
+  }
 }

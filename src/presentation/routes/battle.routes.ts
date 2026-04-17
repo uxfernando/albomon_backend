@@ -9,6 +9,7 @@ export class BattleRoutes {
     router.post("/assign-pokemons", battleController.assignPokemons);
     router.post("/ready", battleController.setReady);
     router.post("/attack", battleController.attack);
+    router.post("/reset", battleController.reset);
 
     return router;
   }
