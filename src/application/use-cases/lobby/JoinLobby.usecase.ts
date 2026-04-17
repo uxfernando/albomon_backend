@@ -2,11 +2,12 @@ import { BattleEntity } from "../../../domain/entities/Battle.entity";
 import { PlayerEntity } from "../../../domain/entities/Player.entity";
 import { IBattleRepository } from "../../../domain/repositories/IBattle.repository";
 import { LOBBY_ID } from "../../../shared/constants/battle.constants";
+import { JoinLobbyDto } from "../../dtos/lobby/JoinLobby.dto";
 
 export class JoinLobbyUseCase {
   constructor(private battleRepository: IBattleRepository) {}
 
-  async execute(nickname: string) {
+  async execute(dto: JoinLobbyDto) {
     // 1. Intentar buscar un lobby existente
     let battle = await this.battleRepository.findById(LOBBY_ID);
 
@@ -16,7 +17,7 @@ export class JoinLobbyUseCase {
     }
 
     // 3. Crear el jugador sin pokemons asignados inicialmente
-    const newPlayer = new PlayerEntity(nickname, []);
+    const newPlayer = new PlayerEntity(dto.nickname, []);
     battle.addPlayer(newPlayer);
 
     // 4. Guardamos el estado actualizado en la base de datos

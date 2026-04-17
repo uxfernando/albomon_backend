@@ -1,10 +1,10 @@
 import { Request, Response } from "express";
 import { AttackUseCase } from "../../application/use-cases/battle/Attack.usecase";
 import { ResetBattleUseCase } from "../../application/use-cases/battle/ResetBattle.usecase";
+import { AttackDto } from "../../application/dtos/battle/Attack.dto";
 import {
   successResponse,
   errorResponse,
-  validationErrorResponse,
 } from "../../infrastructure/utils/response.util";
 
 export class BattleController {
@@ -13,7 +13,7 @@ export class BattleController {
 
   constructor(
     attackUseCase: AttackUseCase,
-    resetBattleUseCase: ResetBattleUseCase
+    resetBattleUseCase: ResetBattleUseCase,
   ) {
     this.attackUseCase = attackUseCase;
     this.resetBattleUseCase = resetBattleUseCase;
@@ -21,14 +21,8 @@ export class BattleController {
 
   public attack = async (req: Request, res: Response): Promise<void> => {
     try {
-      const { nickname } = req.body;
-
-      if (!nickname) {
-        validationErrorResponse(res, "Nickname is required.");
-        return;
-      }
-
-      const { battle, damageDealt } = await this.attackUseCase.execute(nickname);
+      const dto = req.body as AttackDto;
+      const { battle, damageDealt } = await this.attackUseCase.execute(dto);
 
       successResponse(res, { battle, damageDealt });
     } catch (error: any) {

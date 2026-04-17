@@ -1,10 +1,11 @@
 import { Request, Response } from "express";
 import { JoinLobbyUseCase } from "../../application/use-cases/lobby/JoinLobby.usecase";
 import { PlayerReadyUseCase } from "../../application/use-cases/lobby/PlayerReady.usecase";
+import { JoinLobbyDto } from "../../application/dtos/lobby/JoinLobby.dto";
+import { PlayerReadyDto } from "../../application/dtos/lobby/PlayerReady.dto";
 import {
   successResponse,
   errorResponse,
-  validationErrorResponse,
 } from "../../infrastructure/utils/response.util";
 
 export class LobbyController {
@@ -21,14 +22,8 @@ export class LobbyController {
 
   public join = async (req: Request, res: Response): Promise<void> => {
     try {
-      const { nickname } = req.body;
-
-      if (!nickname) {
-        validationErrorResponse(res, "Nickname is required.");
-        return;
-      }
-
-      const battle = await this.joinLobbyUseCase.execute(nickname);
+      const dto = req.body as JoinLobbyDto;
+      const battle = await this.joinLobbyUseCase.execute(dto);
 
       successResponse(res, { battle });
     } catch (error: any) {
@@ -38,14 +33,8 @@ export class LobbyController {
 
   public setReady = async (req: Request, res: Response): Promise<void> => {
     try {
-      const { nickname } = req.body;
-
-      if (!nickname) {
-        validationErrorResponse(res, "Nickname is required.");
-        return;
-      }
-
-      const battle = await this.playerReadyUseCase.execute(nickname);
+      const dto = req.body as PlayerReadyDto;
+      const battle = await this.playerReadyUseCase.execute(dto);
 
       successResponse(res, { battle });
     } catch (error: any) {

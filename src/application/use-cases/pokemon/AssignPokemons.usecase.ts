@@ -4,6 +4,7 @@ import { IPokemonRepository } from "../../../domain/repositories/IPokemon.reposi
 import { DomainError } from "../../../shared/errors/AppError";
 import { LOBBY_ID } from "../../../shared/constants/battle.constants";
 import { ErrorMessages } from "../../../shared/constants/errorMessages.constants";
+import { AssignPokemonsDto } from "../../dtos/pokemon/AssignPokemons.dto";
 
 export class AssignPokemonsUseCase {
   constructor(
@@ -11,16 +12,16 @@ export class AssignPokemonsUseCase {
     private pokemonRepository: IPokemonRepository,
   ) {}
 
-  async execute(nickname: string) {
+  async execute(dto: AssignPokemonsDto) {
     const battle = await this.battleRepository.findById(LOBBY_ID);
 
     if (!battle) {
       throw new DomainError(ErrorMessages.BATTLE_NOT_FOUND);
     }
 
-    const player = battle.players.find((p) => p.nickname === nickname);
+    const player = battle.players.find((p) => p.nickname === dto.nickname);
     if (!player) {
-      throw new DomainError(ErrorMessages.PLAYER_NOT_FOUND(nickname));
+      throw new DomainError(ErrorMessages.PLAYER_NOT_FOUND(dto.nickname));
     }
 
     if (player.pokemonTeam.length > 0) {

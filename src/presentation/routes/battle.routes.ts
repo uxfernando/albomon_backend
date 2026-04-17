@@ -1,11 +1,13 @@
 import { Router } from "express";
 import { battleController } from "../../infrastructure/dependencies/battle.dependency";
+import { validateSchema } from "../middlewares/validate.middleware";
+import { AttackSchema } from "../../application/dtos/battle/Attack.dto";
 
 export class BattleRoutes {
   static get routes(): Router {
     const router = Router();
 
-    router.post("/attack", battleController.attack);
+    router.post("/attack", validateSchema(AttackSchema), battleController.attack);
     router.post("/reset", battleController.reset);
 
     return router;
