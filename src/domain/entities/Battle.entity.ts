@@ -86,7 +86,13 @@ export class BattleEntity {
   public executeAttack(attackerNickname: string): void {
     if (this.status === BattleStatus.Ready) {
       this.startBattle();
-    } else if (this.status !== BattleStatus.Battling) {
+    }
+
+    if (this.status === BattleStatus.Finished) {
+      throw new DomainError(ErrorMessages.BATTLE_FINISHED);
+    }
+
+    if (this.status !== BattleStatus.Battling) {
       throw new DomainError(ErrorMessages.BATTLE_NOT_IN_PROGRESS);
     }
 

@@ -1,9 +1,9 @@
-import { PokemonEntity } from "../../domain/entities/Pokemon.entity";
-import { IBattleRepository } from "../../domain/repositories/IBattle.repository";
-import { IPokemonRepository } from "../../domain/repositories/IPokemon.repository";
-import { DomainError } from "../../shared/errors/AppError";
-import { LOBBY_ID } from "../../shared/constants/battle.constants";
-import { ErrorMessages } from "../../shared/constants/errorMessages.constants";
+import { PokemonEntity } from "../../../domain/entities/Pokemon.entity";
+import { IBattleRepository } from "../../../domain/repositories/IBattle.repository";
+import { IPokemonRepository } from "../../../domain/repositories/IPokemon.repository";
+import { DomainError } from "../../../shared/errors/AppError";
+import { LOBBY_ID } from "../../../shared/constants/battle.constants";
+import { ErrorMessages } from "../../../shared/constants/errorMessages.constants";
 
 export class AssignPokemonsUseCase {
   constructor(
@@ -29,7 +29,7 @@ export class AssignPokemonsUseCase {
 
     const allPokemon = await this.pokemonRepository.findAllBase();
 
-    // Regla: No repetir Pokémon entre jugadores en el mismo lobby
+    // NOTE: No repetir Pokémon entre jugadores en el mismo lobby
     const usedPokemonIds = battle.players.flatMap((p) =>
       p.pokemonTeam.map((poke: PokemonEntity) => poke.id),
     );
