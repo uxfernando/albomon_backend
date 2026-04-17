@@ -1,25 +1,20 @@
-import "dotenv/config";
-import http from "http";
-import { app } from "./infrastructure/app";
-import { connectDB } from "./infrastructure/database/mongo";
-import { getNetworkIp } from "./infrastructure/utils/network";
-import { logger } from "./infrastructure/utils/logger";
+import { ExpressServer } from "./presentation/server/ExpressServer";
+import { MongoDatabase } from "./infrastructure/database/mongo";
 
-const PORT = Number(process.env.PORT) || 8080;
+import { envs } from "./config/envs";
+import { AppRoutes } from "./presentation/routes";
 
 const main = async () => {
-  await connectDB();
+  const PORT = envs.PORT;
 
-  const server = http.createServer(app);
+  const database = new MongoDatabase();
+  await database.connect();
 
-  server.listen(PORT, () => {
-    const networkIp = getNetworkIp();
-    logger.info(`Server is running at:`);
-    logger.info(`- Local:   http://localhost:${PORT}`);
-    if (networkIp) {
-      logger.info(`- Network: http://${networkIp}:${PORT}`);
-    }
+  const server = new ExpressServer({
+    port: PORT,
+    routes: AppRoutes.routes,
   });
+  server.start();
 };
 
 main();

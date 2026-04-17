@@ -1,16 +1,17 @@
 import pino from "pino";
+import { envs } from "../../config/envs";
 
-const isDevelopment = process.env.NODE_ENV !== "production";
+const isDevelopment = envs.NODE_ENV !== "production";
 
 export const logger = pino({
-  level: process.env.LOG_LEVEL || "info",
+  level: envs.LOG_LEVEL,
   transport: isDevelopment
     ? {
         target: "pino-pretty",
         options: {
           colorize: true,
           translateTime: "SYS:standard",
-          ignore: "pid,hostname",
+          ignore: "pid,hostname,responseTime",
         },
       }
     : undefined,

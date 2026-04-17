@@ -1,9 +1,13 @@
 import { Router } from "express";
-import { HealthController } from "../controllers/HealthController";
+import { HealthController } from "../controllers/health.controller";
 
-const router = Router();
-const healthController = new HealthController();
+export class HealthRoutes {
+  static get routes(): Router {
+    const router = Router();
+    const healthController = new HealthController();
 
-router.get("/", healthController.check.bind(healthController));
+    router.get("/check", healthController.check);
 
-export default router;
+    return router;
+  }
+}
