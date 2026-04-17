@@ -32,9 +32,10 @@ export class PokemonEntity {
     this.sprite = sprite;
   }
 
-  public applyDamage(damage: number): void {
-    this.currentHp = Math.max(this.currentHp - 100, 0);
-    // this.currentHp = Math.max(this.currentHp - damage, 0);
+  public applyDamage(damage: number): number {
+    const previousHp = this.currentHp;
+    this.currentHp = Math.max(this.currentHp - damage, 0);
+    return previousHp - this.currentHp;
   }
 
   public get isDefeated(): boolean {

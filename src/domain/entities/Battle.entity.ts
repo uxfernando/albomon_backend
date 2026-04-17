@@ -83,7 +83,7 @@ export class BattleEntity {
     this.status = BattleStatus.Battling;
   }
 
-  public executeAttack(attackerNickname: string): void {
+  public executeAttack(attackerNickname: string): number {
     if (this.status === BattleStatus.Ready) {
       this.startBattle();
     }
@@ -103,12 +103,12 @@ export class BattleEntity {
     const attacker = this.players.find((p) => p.nickname === attackerNickname);
     const defender = this.players.find((p) => p.nickname !== attackerNickname);
 
-    if (!attacker || !defender) return;
+    if (!attacker || !defender) return 0;
 
     const attackerPokemon = attacker.activePokemon;
     const defenderPokemon = defender.activePokemon;
 
-    if (!attackerPokemon || !defenderPokemon) return;
+    if (!attackerPokemon || !defenderPokemon) return 0;
 
     // Regla de Negocio: Fórmula de Daño
     let damage = attackerPokemon.attack - defenderPokemon.defense;
@@ -116,7 +116,7 @@ export class BattleEntity {
       damage = 1; // El daño mínimo siempre es 1
     }
 
-    defenderPokemon.applyDamage(damage);
+    const damageDealt = defenderPokemon.applyDamage(damage);
 
     // Regla de Negocio: Derrota
     if (defenderPokemon.isDefeated) {
@@ -124,11 +124,13 @@ export class BattleEntity {
       if (!defender.hasAvailablePokemon) {
         this.status = BattleStatus.Finished;
         this.winnerId = attacker.nickname;
-        return;
+        return damageDealt;
       }
     }
 
     // Pasar turno al otro jugador
     this.currentTurnPlayerId = defender.nickname;
+    
+    return damageDealt;
   }
 }

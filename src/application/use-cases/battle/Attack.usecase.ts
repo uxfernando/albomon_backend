@@ -13,10 +13,10 @@ export class AttackUseCase {
       throw new DomainError(ErrorMessages.BATTLE_NOT_FOUND);
     }
 
-    battle.executeAttack(nickname);
+    const damageDealt = battle.executeAttack(nickname);
 
     await this.battleRepository.save(battle);
 
-    return battle;
+    return { battle, damageDealt };
   }
 }

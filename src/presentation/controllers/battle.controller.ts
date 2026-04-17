@@ -28,9 +28,9 @@ export class BattleController {
         return;
       }
 
-      const battle = await this.attackUseCase.execute(nickname);
+      const { battle, damageDealt } = await this.attackUseCase.execute(nickname);
 
-      successResponse(res, { battle });
+      successResponse(res, { battle, damageDealt });
     } catch (error: any) {
       errorResponse(res, error);
     }
