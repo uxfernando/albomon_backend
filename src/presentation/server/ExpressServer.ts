@@ -3,7 +3,8 @@ import cors from "cors";
 import helmet from "helmet";
 import mongoSanitize from "express-mongo-sanitize";
 import http from "http";
-import { httpLogger } from "../middlewares/httpLogger.middleware";
+import { requestLogger } from "../middlewares/requestLogger.middleware";
+import { errorLogger } from "../middlewares/errorLogger.middleware";
 import { getNetworkIp } from "../../infrastructure/utils/network";
 import { logger } from "../../infrastructure/utils/logger";
 
@@ -36,11 +37,12 @@ export class ExpressServer {
     this.app.use(mongoSanitize());
     this.app.use(express.json());
     this.app.use(express.urlencoded({ extended: true }));
-    this.app.use(httpLogger);
+    this.app.use(requestLogger);
   }
 
   private setupRoutes(): void {
     this.app.use("/api", this.routes);
+    this.app.use(errorLogger);
   }
 
   public start(): void {

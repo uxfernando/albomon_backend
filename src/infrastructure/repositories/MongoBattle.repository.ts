@@ -6,16 +6,16 @@ import { BattleModel } from "../database/mongodb/models/Battle.model";
 
 export class MongoBattleRepository implements IBattleRepository {
   async findById(id: string): Promise<BattleEntity | null> {
-    const battle = await BattleModel.findById(id).lean();
+    const battle = await BattleModel.findOne({ id }).lean();
     if (!battle) return null;
 
     const players = battle.players.map((p: any) => {
-      const pokemonTeam = p.team.map(
+      const pokemonTeam = p.pokemonTeam.map(
         (poke: any) =>
           new PokemonEntity(
             poke.id,
             poke.name,
-            poke.types,
+            poke.type,
             poke.hp,
             poke.attack,
             poke.defense,
@@ -57,6 +57,8 @@ export class MongoBattleRepository implements IBattleRepository {
       })),
     };
 
-    await BattleModel.findByIdAndUpdate(battle.id, data, { upsert: true });
+    await BattleModel.findOneAndUpdate({ id: battle.id }, data, {
+      upsert: true,
+    });
   }
 }
