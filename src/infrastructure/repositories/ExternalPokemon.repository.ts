@@ -1,6 +1,6 @@
 import axios from "axios";
-import { IPokemonRepository } from "../../domain/repositories/IPokemon.repository";
-import { PokemonEntity } from "../../domain/entities/Pokemon.entity";
+import { IPokemonRepository } from "@/domain/repositories/IPokemon.repository";
+import { PokemonEntity } from "@/domain/entities/Pokemon.entity";
 
 export class ExternalPokemonRepository implements IPokemonRepository {
   private readonly baseUrl =

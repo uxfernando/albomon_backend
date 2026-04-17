@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { logger } from '../../infrastructure/utils/logger';
+import { logger } from '@/infrastructure/utils/logger';
 
 export const errorLogger = (
     err: any,

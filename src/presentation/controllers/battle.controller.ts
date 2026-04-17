@@ -1,11 +1,11 @@
 import { Request, Response } from "express";
-import { AttackUseCase } from "../../application/use-cases/battle/Attack.usecase";
-import { ResetBattleUseCase } from "../../application/use-cases/battle/ResetBattle.usecase";
-import { AttackDto } from "../../application/dtos/battle/Attack.dto";
+import { AttackUseCase } from "@/application/use-cases/battle/Attack.usecase";
+import { ResetBattleUseCase } from "@/application/use-cases/battle/ResetBattle.usecase";
+import { AttackDto } from "@/application/dtos/battle/Attack.dto";
 import {
   successResponse,
   errorResponse,
-} from "../../infrastructure/utils/response.util";
+} from "@/infrastructure/utils/response.util";
 
 export class BattleController {
   private readonly attackUseCase: AttackUseCase;

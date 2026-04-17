@@ -1,7 +1,7 @@
-import { MongoBattleRepository } from "../../infrastructure/repositories/MongoBattle.repository";
-import { JoinLobbyUseCase } from "../../application/use-cases/lobby/JoinLobby.usecase";
-import { PlayerReadyUseCase } from "../../application/use-cases/lobby/PlayerReady.usecase";
-import { LobbyController } from "../../presentation/controllers/lobby.controller";
+import { MongoBattleRepository } from "@/infrastructure/repositories/MongoBattle.repository";
+import { JoinLobbyUseCase } from "@/application/use-cases/lobby/JoinLobby.usecase";
+import { PlayerReadyUseCase } from "@/application/use-cases/lobby/PlayerReady.usecase";
+import { LobbyController } from "@/presentation/controllers/lobby.controller";
 
 // Repository dependencies
 const battleRepository = new MongoBattleRepository();

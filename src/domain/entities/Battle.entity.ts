@@ -1,7 +1,7 @@
-import { BattleStatus } from "../../shared/enums/Battle.enum";
+import { BattleStatus } from "@/shared/enums/Battle.enum";
 import { PlayerEntity } from "./Player.entity";
-import { DomainError } from "../../shared/errors/AppError";
-import { ErrorMessages } from "../../shared/constants/errorMessages.constants";
+import { DomainError } from "@/shared/errors/AppError";
+import { ErrorMessages } from "@/shared/constants/errorMessages.constants";
 
 export class BattleEntity {
   public readonly id: string;
@@ -130,7 +130,7 @@ export class BattleEntity {
 
     // Pasar turno al otro jugador
     this.currentTurnPlayerId = defender.nickname;
-    
+
     return damageDealt;
   }
 }

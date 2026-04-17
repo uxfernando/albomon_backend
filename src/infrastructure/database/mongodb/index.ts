@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
-import { logger } from "../../utils/logger";
-import { envs } from "../../../config/envs";
+import { logger } from "@/infrastructure/utils/logger";
+import { envs } from "@/config/envs";
 
 export class MongoDatabase {
   public async connect(): Promise<void> {

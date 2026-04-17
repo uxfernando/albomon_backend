@@ -1,7 +1,7 @@
-import { MongoBattleRepository } from "../../infrastructure/repositories/MongoBattle.repository";
-import { ExternalPokemonRepository } from "../../infrastructure/repositories/ExternalPokemon.repository";
-import { AssignPokemonsUseCase } from "../../application/use-cases/pokemon/AssignPokemons.usecase";
-import { PokemonController } from "../../presentation/controllers/pokemon.controller";
+import { MongoBattleRepository } from "@/infrastructure/repositories/MongoBattle.repository";
+import { ExternalPokemonRepository } from "@/infrastructure/repositories/ExternalPokemon.repository";
+import { AssignPokemonsUseCase } from "@/application/use-cases/pokemon/AssignPokemons.usecase";
+import { PokemonController } from "@/presentation/controllers/pokemon.controller";
 
 // Repository dependencies
 const battleRepository = new MongoBattleRepository();
@@ -14,6 +14,4 @@ const assignPokemonsUseCase = new AssignPokemonsUseCase(
 );
 
 // Controller dependencies
-export const pokemonController = new PokemonController(
-  assignPokemonsUseCase
-);
+export const pokemonController = new PokemonController(assignPokemonsUseCase);

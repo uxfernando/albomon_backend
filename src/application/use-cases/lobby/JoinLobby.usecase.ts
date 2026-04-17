@@ -1,8 +1,8 @@
-import { BattleEntity } from "../../../domain/entities/Battle.entity";
-import { PlayerEntity } from "../../../domain/entities/Player.entity";
-import { IBattleRepository } from "../../../domain/repositories/IBattle.repository";
-import { LOBBY_ID } from "../../../shared/constants/battle.constants";
-import { JoinLobbyDto } from "../../dtos/lobby/JoinLobby.dto";
+import { BattleEntity } from "@/domain/entities/Battle.entity";
+import { PlayerEntity } from "@/domain/entities/Player.entity";
+import { IBattleRepository } from "@/domain/repositories/IBattle.repository";
+import { LOBBY_ID } from "@/shared/constants/battle.constants";
+import { JoinLobbyDto } from "@/application/dtos/lobby/JoinLobby.dto";
 
 export class JoinLobbyUseCase {
   constructor(private battleRepository: IBattleRepository) {}

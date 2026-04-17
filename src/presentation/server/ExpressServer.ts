@@ -3,10 +3,10 @@ import cors from "cors";
 import helmet from "helmet";
 import mongoSanitize from "express-mongo-sanitize";
 import http from "http";
-import { requestLogger } from "../middlewares/requestLogger.middleware";
-import { errorLogger } from "../middlewares/errorLogger.middleware";
-import { getNetworkIp } from "../../infrastructure/utils/network";
-import { logger } from "../../infrastructure/utils/logger";
+import { requestLogger } from "@/presentation/middlewares/requestLogger.middleware";
+import { errorLogger } from "@/presentation/middlewares/errorLogger.middleware";
+import { getNetworkIp } from "@/infrastructure/utils/network";
+import { logger } from "@/infrastructure/utils/logger";
 
 interface ExpressServerOptions {
   port: number;

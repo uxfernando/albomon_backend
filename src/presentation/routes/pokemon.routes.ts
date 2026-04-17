@@ -1,7 +1,7 @@
 import { Router } from "express";
-import { pokemonController } from "../../infrastructure/dependencies/pokemon.dependency";
-import { validateSchema } from "../middlewares/validate.middleware";
-import { AssignPokemonsSchema } from "../../application/dtos/pokemon/AssignPokemons.dto";
+import { pokemonController } from "@/infrastructure/dependencies/pokemon.dependency";
+import { validateSchema } from "@/presentation/middlewares/validate.middleware";
+import { AssignPokemonsSchema } from "@/application/dtos/pokemon/AssignPokemons.dto";
 
 export class PokemonRoutes {
   static get routes(): Router {

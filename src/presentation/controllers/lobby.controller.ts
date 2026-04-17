@@ -1,12 +1,12 @@
 import { Request, Response } from "express";
-import { JoinLobbyUseCase } from "../../application/use-cases/lobby/JoinLobby.usecase";
-import { PlayerReadyUseCase } from "../../application/use-cases/lobby/PlayerReady.usecase";
-import { JoinLobbyDto } from "../../application/dtos/lobby/JoinLobby.dto";
-import { PlayerReadyDto } from "../../application/dtos/lobby/PlayerReady.dto";
+import { JoinLobbyUseCase } from "@/application/use-cases/lobby/JoinLobby.usecase";
+import { PlayerReadyUseCase } from "@/application/use-cases/lobby/PlayerReady.usecase";
+import { JoinLobbyDto } from "@/application/dtos/lobby/JoinLobby.dto";
+import { PlayerReadyDto } from "@/application/dtos/lobby/PlayerReady.dto";
 import {
   successResponse,
   errorResponse,
-} from "../../infrastructure/utils/response.util";
+} from "@/infrastructure/utils/response.util";
 
 export class LobbyController {
   private readonly joinLobbyUseCase: JoinLobbyUseCase;

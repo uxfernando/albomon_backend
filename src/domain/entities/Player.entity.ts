@@ -1,6 +1,6 @@
 import { PokemonEntity } from "./Pokemon.entity";
-import { DomainError } from "../../shared/errors/AppError";
-import { ErrorMessages } from "../../shared/constants/errorMessages.constants";
+import { DomainError } from "@/shared/errors/AppError";
+import { ErrorMessages } from "@/shared/constants/errorMessages.constants";
 
 export class PlayerEntity {
   public readonly nickname: string;

@@ -1,4 +1,4 @@
-import { BattleEntity } from "../entities/Battle.entity";
+import { BattleEntity } from "@/domain/entities/Battle.entity";
 
 export interface IBattleRepository {
   save(battle: BattleEntity): Promise<void>;

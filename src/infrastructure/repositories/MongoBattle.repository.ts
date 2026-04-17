@@ -1,8 +1,8 @@
-import { IBattleRepository } from "../../domain/repositories/IBattle.repository";
-import { BattleEntity } from "../../domain/entities/Battle.entity";
-import { PlayerEntity } from "../../domain/entities/Player.entity";
-import { PokemonEntity } from "../../domain/entities/Pokemon.entity";
-import { BattleModel } from "../database/mongodb/models/Battle.model";
+import { IBattleRepository } from "@/domain/repositories/IBattle.repository";
+import { BattleEntity } from "@/domain/entities/Battle.entity";
+import { PlayerEntity } from "@/domain/entities/Player.entity";
+import { PokemonEntity } from "@/domain/entities/Pokemon.entity";
+import { BattleModel } from "@/infrastructure/database/mongodb/models/Battle.model";
 
 export class MongoBattleRepository implements IBattleRepository {
   async findById(id: string): Promise<BattleEntity | null> {

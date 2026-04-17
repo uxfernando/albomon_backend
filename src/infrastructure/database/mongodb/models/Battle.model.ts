@@ -1,5 +1,5 @@
 import mongoose, { Schema } from "mongoose";
-import { BattleStatus } from "./../../../../shared/enums/Battle.enum";
+import { BattleStatus } from "@/shared/enums/Battle.enum";
 
 const PokemonSchema = new Schema(
   {

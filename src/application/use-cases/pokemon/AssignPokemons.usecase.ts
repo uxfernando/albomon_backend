@@ -1,10 +1,10 @@
-import { PokemonEntity } from "../../../domain/entities/Pokemon.entity";
-import { IBattleRepository } from "../../../domain/repositories/IBattle.repository";
-import { IPokemonRepository } from "../../../domain/repositories/IPokemon.repository";
-import { DomainError } from "../../../shared/errors/AppError";
-import { LOBBY_ID } from "../../../shared/constants/battle.constants";
-import { ErrorMessages } from "../../../shared/constants/errorMessages.constants";
-import { AssignPokemonsDto } from "../../dtos/pokemon/AssignPokemons.dto";
+import { PokemonEntity } from "@/domain/entities/Pokemon.entity";
+import { IBattleRepository } from "@/domain/repositories/IBattle.repository";
+import { IPokemonRepository } from "@/domain/repositories/IPokemon.repository";
+import { DomainError } from "@/shared/errors/AppError";
+import { LOBBY_ID } from "@/shared/constants/battle.constants";
+import { ErrorMessages } from "@/shared/constants/errorMessages.constants";
+import { AssignPokemonsDto } from "@/application/dtos/pokemon/AssignPokemons.dto";
 
 export class AssignPokemonsUseCase {
   constructor(
