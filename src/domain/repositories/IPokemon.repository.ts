@@ -1,5 +1,6 @@
 import { PokemonEntity } from "../entities/Pokemon.entity";
 
 export interface IPokemonRepository {
-  getAll(): Promise<PokemonEntity[]>;
+  findAllBase(): Promise<{ id: number; name: string; sprite: string }[]>;
+  findById(id: number): Promise<PokemonEntity>;
 }

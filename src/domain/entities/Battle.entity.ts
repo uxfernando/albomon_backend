@@ -1,6 +1,5 @@
+import { BattleStatus } from "../../shared/enums/Battle.enum";
 import { PlayerEntity } from "./Player.entity";
-
-export type BattleStatus = "waiting" | "ready" | "battling" | "finished";
 
 export class BattleEntity {
   public readonly id: string;
@@ -11,7 +10,7 @@ export class BattleEntity {
   constructor(
     id: string,
     players: PlayerEntity[] = [],
-    status: BattleStatus = "waiting",
+    status: BattleStatus = BattleStatus.Waiting,
     currentTurnPlayerId: string | null = null,
   ) {
     this.id = id;
@@ -26,7 +25,7 @@ export class BattleEntity {
     }
     this.players.push(player);
     if (this.players.length === 2) {
-      this.status = "ready";
+      this.status = BattleStatus.Ready;
     }
   }
 
@@ -41,7 +40,7 @@ export class BattleEntity {
   }
 
   private startBattle(): void {
-    this.status = "battling";
+    this.status = BattleStatus.Battling;
     this.determineInitiative();
   }
 
@@ -87,7 +86,7 @@ export class BattleEntity {
     if (defenderPokemon.isDefeated) {
       // El siguiente disponible entra automáticamente al usar get activePokemon() en los siguientes turnos
       if (!defender.hasAvailablePokemon) {
-        this.status = "finished";
+        this.status = BattleStatus.Finished;
         return;
       }
     }

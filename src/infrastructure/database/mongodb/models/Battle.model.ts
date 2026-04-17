@@ -1,10 +1,11 @@
 import mongoose, { Schema } from "mongoose";
+import { BattleStatus } from "./../../../../shared/enums/Battle.enum";
 
 const PokemonSchema = new Schema(
   {
     id: { type: Number, required: true },
     name: { type: String, required: true },
-    types: { type: [String], required: true },
+    type: { type: [String], required: true },
     hp: { type: Number, required: true },
     currentHp: { type: Number, required: true },
     attack: { type: Number, required: true },
@@ -12,25 +13,25 @@ const PokemonSchema = new Schema(
     speed: { type: Number, required: true },
     sprite: { type: String, required: true },
   },
-  { _id: false }
+  { _id: false },
 );
 
 const PlayerSchema = new Schema(
   {
     nickname: { type: String, required: true },
-    team: { type: [PokemonSchema], default: [] },
+    pokemonTeam: { type: [PokemonSchema], default: [] },
     isReady: { type: Boolean, default: false },
   },
-  { _id: false }
+  { _id: false },
 );
 
 const BattleSchema = new Schema({
-  id: { type: String, required: true, unique: true },
+  id: { type: String, required: true },
   players: { type: [PlayerSchema], default: [] },
   status: {
     type: String,
-    enum: ["waiting", "ready", "battling", "finished"],
-    default: "waiting",
+    enum: Object.values(BattleStatus),
+    default: BattleStatus.Waiting,
   },
   currentTurnPlayerId: { type: String, default: null },
 });

@@ -4,6 +4,9 @@ import { logger } from "../../infrastructure/utils/logger";
 export const httpLogger = pinoHttp({
   logger,
   customLogLevel: (req, res, err) => {
+    if (req.statusCode === 400) {
+      return "error";
+    }
     if (res.statusCode >= 500 || err) {
       return "error";
     }

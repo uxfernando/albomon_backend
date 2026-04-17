@@ -1,5 +1,5 @@
 import { ExpressServer } from "./presentation/server/ExpressServer";
-import { MongoDatabase } from "./infrastructure/database/mongo";
+import { MongoDatabase } from "./infrastructure/database/mongodb";
 
 import { envs } from "./config/envs";
 import { AppRoutes } from "./presentation/routes";

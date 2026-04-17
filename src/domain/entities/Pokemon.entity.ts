@@ -1,7 +1,7 @@
 export class PokemonEntity {
   public readonly id: number;
   public readonly name: string;
-  public readonly types: string[];
+  public readonly type: string[];
   public readonly hp: number;
   public readonly attack: number;
   public readonly defense: number;
@@ -13,7 +13,7 @@ export class PokemonEntity {
   constructor(
     id: number,
     name: string,
-    types: string[],
+    type: string[],
     hp: number,
     attack: number,
     defense: number,
@@ -23,7 +23,7 @@ export class PokemonEntity {
   ) {
     this.id = id;
     this.name = name;
-    this.types = types;
+    this.type = type;
     this.hp = hp;
     this.currentHp = currentHp || hp;
     this.attack = attack;
