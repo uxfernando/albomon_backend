@@ -32,6 +32,7 @@ export class MongoBattleRepository implements IBattleRepository {
       players,
       battle.status as any,
       battle.currentTurnPlayerId,
+      battle.winnerId,
     );
   }
 
@@ -40,6 +41,7 @@ export class MongoBattleRepository implements IBattleRepository {
       id: battle.id,
       status: battle.status,
       currentTurnPlayerId: battle.currentTurnPlayerId,
+      winnerId: battle.winnerId,
       players: battle.players.map((p) => ({
         nickname: p.nickname,
         isReady: p.isReady,

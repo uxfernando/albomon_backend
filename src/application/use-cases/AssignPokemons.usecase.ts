@@ -2,6 +2,8 @@ import { PokemonEntity } from "../../domain/entities/Pokemon.entity";
 import { IBattleRepository } from "../../domain/repositories/IBattle.repository";
 import { IPokemonRepository } from "../../domain/repositories/IPokemon.repository";
 import { DomainError } from "../../shared/errors/AppError";
+import { LOBBY_ID } from "../../shared/constants/battle.constants";
+import { ErrorMessages } from "../../shared/constants/errorMessages.constants";
 
 export class AssignPokemonsUseCase {
   constructor(
@@ -10,22 +12,19 @@ export class AssignPokemonsUseCase {
   ) {}
 
   async execute(nickname: string) {
-    const LOBBY_ID = "unique-stadium-lobby";
     const battle = await this.battleRepository.findById(LOBBY_ID);
 
     if (!battle) {
-      throw new DomainError("Battle not found.");
+      throw new DomainError(ErrorMessages.BATTLE_NOT_FOUND);
     }
 
     const player = battle.players.find((p) => p.nickname === nickname);
     if (!player) {
-      throw new DomainError(
-        `Player with nickname '${nickname}' not found in the battle.`,
-      );
+      throw new DomainError(ErrorMessages.PLAYER_NOT_FOUND(nickname));
     }
 
     if (player.pokemonTeam.length > 0) {
-      throw new DomainError("Player already has a Pokemon team assigned.");
+      throw new DomainError(ErrorMessages.PLAYER_ALREADY_HAS_TEAM);
     }
 
     const allPokemon = await this.pokemonRepository.findAllBase();

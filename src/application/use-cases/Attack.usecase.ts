@@ -3,7 +3,7 @@ import { DomainError } from "../../shared/errors/AppError";
 import { LOBBY_ID } from "../../shared/constants/battle.constants";
 import { ErrorMessages } from "../../shared/constants/errorMessages.constants";
 
-export class PlayerReadyUseCase {
+export class AttackUseCase {
   constructor(private battleRepository: IBattleRepository) {}
 
   async execute(nickname: string) {
@@ -13,7 +13,7 @@ export class PlayerReadyUseCase {
       throw new DomainError(ErrorMessages.BATTLE_NOT_FOUND);
     }
 
-    battle.setReady(nickname);
+    battle.executeAttack(nickname);
 
     await this.battleRepository.save(battle);
 

@@ -1,28 +1,32 @@
 import { BattleStatus } from "../../shared/enums/Battle.enum";
 import { PlayerEntity } from "./Player.entity";
 import { DomainError } from "../../shared/errors/AppError";
+import { ErrorMessages } from "../../shared/constants/errorMessages.constants";
 
 export class BattleEntity {
   public readonly id: string;
   public players: PlayerEntity[];
   public status: BattleStatus;
   public currentTurnPlayerId: string | null;
+  public winnerId: string | null;
 
   constructor(
     id: string,
     players: PlayerEntity[] = [],
     status: BattleStatus = BattleStatus.Waiting,
     currentTurnPlayerId: string | null = null,
+    winnerId: string | null = null,
   ) {
     this.id = id;
     this.players = players;
     this.status = status;
     this.currentTurnPlayerId = currentTurnPlayerId;
+    this.winnerId = winnerId;
   }
 
   public addPlayer(player: PlayerEntity): void {
     if (this.players.length >= 2) {
-      throw new DomainError("Battle already has 2 players.");
+      throw new DomainError(ErrorMessages.BATTLE_FULL);
     }
 
     const nicknameExists = this.players.some(
@@ -31,7 +35,7 @@ export class BattleEntity {
 
     if (nicknameExists) {
       throw new DomainError(
-        `Player with nickname '${player.nickname}' is already in the battle.`,
+        ErrorMessages.PLAYER_ALREADY_IN_BATTLE(player.nickname),
       );
     }
 
@@ -41,17 +45,15 @@ export class BattleEntity {
   public setReady(playerNickname: string): void {
     const player = this.players.find((p) => p.nickname === playerNickname);
     if (!player) {
-      throw new DomainError(
-        `Player with nickname '${playerNickname}' not found in the battle.`,
-      );
+      throw new DomainError(ErrorMessages.PLAYER_NOT_FOUND(playerNickname));
     }
 
     if (player.pokemonTeam.length === 0) {
-      throw new DomainError("Player has no Pokemon team assigned.");
+      throw new DomainError(ErrorMessages.PLAYER_NO_TEAM);
     }
 
     if (player.isReady) {
-      throw new DomainError("Player is already ready.");
+      throw new DomainError(ErrorMessages.PLAYER_ALREADY_READY);
     }
 
     player.isReady = true;
@@ -76,17 +78,20 @@ export class BattleEntity {
 
   public startBattle(): void {
     if (this.status !== BattleStatus.Ready) {
-      throw new DomainError("Battle is not ready to start.");
+      throw new DomainError(ErrorMessages.BATTLE_NOT_READY);
     }
     this.status = BattleStatus.Battling;
   }
 
   public executeAttack(attackerNickname: string): void {
-    if (this.status !== "battling") {
-      throw new DomainError("Battle is not in progress.");
+    if (this.status === BattleStatus.Ready) {
+      this.startBattle();
+    } else if (this.status !== BattleStatus.Battling) {
+      throw new DomainError(ErrorMessages.BATTLE_NOT_IN_PROGRESS);
     }
+
     if (this.currentTurnPlayerId !== attackerNickname) {
-      throw new DomainError("It's not this player's turn.");
+      throw new DomainError(ErrorMessages.NOT_PLAYER_TURN);
     }
 
     const attacker = this.players.find((p) => p.nickname === attackerNickname);
@@ -112,6 +117,7 @@ export class BattleEntity {
       // El siguiente disponible entra automáticamente al usar get activePokemon() en los siguientes turnos
       if (!defender.hasAvailablePokemon) {
         this.status = BattleStatus.Finished;
+        this.winnerId = attacker.nickname;
         return;
       }
     }

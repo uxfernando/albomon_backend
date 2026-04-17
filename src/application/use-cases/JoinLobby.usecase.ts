@@ -1,14 +1,13 @@
 import { BattleEntity } from "../../domain/entities/Battle.entity";
 import { PlayerEntity } from "../../domain/entities/Player.entity";
-
 import { IBattleRepository } from "../../domain/repositories/IBattle.repository";
+import { LOBBY_ID } from "../../shared/constants/battle.constants";
 
 export class JoinLobbyUseCase {
   constructor(private battleRepository: IBattleRepository) {}
 
   async execute(nickname: string) {
     // 1. Intentar buscar un lobby existente
-    const LOBBY_ID = "unique-stadium-lobby";
     let battle = await this.battleRepository.findById(LOBBY_ID);
 
     // 2. Si no existe, lo creamos

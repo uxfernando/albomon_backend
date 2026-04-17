@@ -34,6 +34,7 @@ const BattleSchema = new Schema({
     default: BattleStatus.Waiting,
   },
   currentTurnPlayerId: { type: String, default: null },
+  winnerId: { type: String, default: null },
 });
 
 export const BattleModel = mongoose.model("Battle", BattleSchema);

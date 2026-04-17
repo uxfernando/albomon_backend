@@ -25,7 +25,7 @@ export class PokemonEntity {
     this.name = name;
     this.type = type;
     this.hp = hp;
-    this.currentHp = currentHp || hp;
+    this.currentHp = currentHp ?? hp;
     this.attack = attack;
     this.defense = defense;
     this.speed = speed;
@@ -33,7 +33,8 @@ export class PokemonEntity {
   }
 
   public applyDamage(damage: number): void {
-    this.currentHp = Math.max(this.currentHp - damage, 0);
+    this.currentHp = Math.max(this.currentHp - 100, 0);
+    // this.currentHp = Math.max(this.currentHp - damage, 0);
   }
 
   public get isDefeated(): boolean {
