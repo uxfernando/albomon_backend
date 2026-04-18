@@ -1,6 +1,7 @@
 import { PokemonEntity } from "@/domain/entities/Pokemon.entity";
 import { IBattleRepository } from "@/domain/repositories/IBattle.repository";
 import { IPokemonRepository } from "@/domain/repositories/IPokemon.repository";
+import { IBattleNotifier } from "@/domain/ports/IBattleNotifier.port";
 import { DomainError } from "@/shared/errors/AppError";
 import { LOBBY_ID } from "@/shared/constants/battle.constants";
 import { ErrorMessages } from "@/shared/constants/errorMessages.constants";
@@ -10,6 +11,7 @@ export class AssignPokemonsUseCase {
   constructor(
     private battleRepository: IBattleRepository,
     private pokemonRepository: IPokemonRepository,
+    private notifier: IBattleNotifier,
   ) {}
 
   async execute(dto: AssignPokemonsDto) {
@@ -51,6 +53,8 @@ export class AssignPokemonsUseCase {
     player.pokemonTeam.push(...fullTeam);
 
     await this.battleRepository.save(battle);
+
+    this.notifier.notifyLobbyStatus(battle);
 
     return battle;
   }

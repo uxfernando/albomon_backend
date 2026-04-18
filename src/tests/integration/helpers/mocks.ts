@@ -1,5 +1,6 @@
 import { BattleEntity } from "@/domain/entities/Battle.entity";
 import { IBattleRepository } from "@/domain/repositories/IBattle.repository";
+import { IBattleNotifier } from "@/domain/ports/IBattleNotifier.port";
 import { PokemonEntity } from "@/domain/entities/Pokemon.entity";
 
 export class MockBattleRepository implements IBattleRepository {
@@ -13,6 +14,13 @@ export class MockBattleRepository implements IBattleRepository {
   async delete(id: string) {
     this.battle = null;
   }
+}
+
+export class MockBattleNotifier implements IBattleNotifier {
+  notifyLobbyStatus(battle: BattleEntity): void {}
+  notifyBattleStart(battle: BattleEntity): void {}
+  notifyTurnResult(battle: BattleEntity, damageDealt?: number): void {}
+  notifyBattleEnd(battle: BattleEntity): void {}
 }
 
 export const createMockPokemon = (

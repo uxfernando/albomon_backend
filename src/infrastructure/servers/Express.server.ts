@@ -45,6 +45,10 @@ export class ExpressServer {
     this.app.use(errorLogger);
   }
 
+  public getServer(): http.Server {
+    return this.server;
+  }
+
   public start(): void {
     this.server.listen(this.port, () => {
       logger.info(`Server is running at:`);

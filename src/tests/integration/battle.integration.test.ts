@@ -6,18 +6,24 @@ import { PlayerReadyUseCase } from "@/application/use-cases/lobby/PlayerReady.us
 import { LOBBY_ID } from "@/shared/constants/battle.constants";
 import { BattleStatus } from "@/shared/enums/Battle.enum";
 import { DomainError } from "@/shared/errors/AppError";
-import { MockBattleRepository, createMockPokemon } from "./helpers/mocks";
+import {
+  MockBattleRepository,
+  MockBattleNotifier,
+  createMockPokemon,
+} from "./helpers/mocks";
 import { setupReadyBattle, PLAYER_1, PLAYER_2 } from "./helpers/setup";
 
 describe("Battle Integration Suite", () => {
   let battleRepo: MockBattleRepository;
+  let notifier: MockBattleNotifier;
   let attackUseCase: AttackUseCase;
   let playerReadyUseCase: PlayerReadyUseCase;
 
   beforeEach(() => {
     battleRepo = new MockBattleRepository();
-    attackUseCase = new AttackUseCase(battleRepo);
-    playerReadyUseCase = new PlayerReadyUseCase(battleRepo);
+    notifier = new MockBattleNotifier();
+    attackUseCase = new AttackUseCase(battleRepo, notifier);
+    playerReadyUseCase = new PlayerReadyUseCase(battleRepo, notifier);
   });
 
   it("1. Full Flow Test (Happy Path): Simulates a battle from start to finish until one player wins and verifies turns", async () => {
