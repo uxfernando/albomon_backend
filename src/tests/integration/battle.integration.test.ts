@@ -159,7 +159,7 @@ describe("Battle Integration Suite", () => {
   });
 
   it("7. Battle Status Lifecycle: Verifies that the battle transitions correctly from Waiting to Finished", async () => {
-    // Business Rule: Battle status should change from Waiting -> Ready -> Battling -> Finished
+    // Business Rule: Battle status should change from Waiting -> Battling -> Finished
     const ashPokemon = createMockPokemon(1, "Pikachu", 20, 10, 5, 100);
     const garyPokemon = createMockPokemon(2, "Eevee", 20, 8, 5, 90);
 
@@ -174,15 +174,13 @@ describe("Battle Integration Suite", () => {
     let currentBattle = await battleRepo.findById(LOBBY_ID);
     expect(currentBattle?.status).toBe(BattleStatus.Waiting);
 
+    // Both players ready, status should transition to Battling
     await playerReadyUseCase.execute({ nickname: PLAYER_2 });
-    currentBattle = await battleRepo.findById(LOBBY_ID);
-    expect(currentBattle?.status).toBe(BattleStatus.Ready);
-
-    await attackUseCase.execute({ nickname: PLAYER_1 });
     currentBattle = await battleRepo.findById(LOBBY_ID);
     expect(currentBattle?.status).toBe(BattleStatus.Battling);
 
     // Pikachu deals 5 damage per hit, Eevee has 20 HP. It takes 4 hits to kill Eevee.
+    await attackUseCase.execute({ nickname: PLAYER_1 });
     await attackUseCase.execute({ nickname: PLAYER_2 });
     await attackUseCase.execute({ nickname: PLAYER_1 });
     await attackUseCase.execute({ nickname: PLAYER_2 });

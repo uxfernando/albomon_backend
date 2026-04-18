@@ -59,7 +59,7 @@ export class BattleEntity {
     player.isReady = true;
 
     if (this.players.length === 2 && this.players.every((p) => p.isReady)) {
-      this.status = BattleStatus.Ready;
+      this.status = BattleStatus.Battling;
       this.determineInitiative();
     }
   }
@@ -76,18 +76,7 @@ export class BattleEntity {
     }
   }
 
-  public startBattle(): void {
-    if (this.status !== BattleStatus.Ready) {
-      throw new DomainError(ErrorMessages.BATTLE_NOT_READY);
-    }
-    this.status = BattleStatus.Battling;
-  }
-
   public executeAttack(attackerNickname: string): number {
-    if (this.status === BattleStatus.Ready) {
-      this.startBattle();
-    }
-
     if (this.status === BattleStatus.Finished) {
       throw new DomainError(ErrorMessages.BATTLE_FINISHED);
     }
