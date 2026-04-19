@@ -7,7 +7,12 @@ export class BattleRoutes {
   static get routes(): Router {
     const router = Router();
 
-    router.post("/attack", validateSchema(AttackSchema), battleController.attack);
+    router.get("", battleController.getBattleDetails);
+    router.post(
+      "/attack",
+      validateSchema(AttackSchema),
+      battleController.attack,
+    );
     router.post("/reset", battleController.reset);
 
     return router;
