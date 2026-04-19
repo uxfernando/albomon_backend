@@ -19,14 +19,12 @@ export const setupSocketHandlers = (
 
     const { nickname } = validation.data;
 
-    logger.info(`User connected: ${nickname} [${socket.id}]`);
     connectedUsers.set(nickname, socket.id);
 
-    // Join the unique lobby room
-    socket.join(LOBBY_ID);
-    logger.info(`User ${nickname} joined room ${LOBBY_ID}`);
-
-    // TODO: Sincronizar estado inicial al conectarse
+    socket.on("join-room", (roomId) => {
+      socket.join(LOBBY_ID);
+      console.log(`Socket ${socket.id} joined room: ${roomId}`);
+    });
 
     socket.on("disconnect", () => {
       logger.info(`User disconnected: ${nickname} [${socket.id}]`);
