@@ -23,11 +23,9 @@ export class PlayerReadyUseCase {
 
     await this.battleRepository.save(battle);
 
-    // Notify depending on the status
+    this.notifier.notifyLobbyStatus(battle);
     if (battle.status === BattleStatus.Battling) {
       this.notifier.notifyBattleStart(battle);
-    } else {
-      this.notifier.notifyLobbyStatus(battle);
     }
 
     return battle;

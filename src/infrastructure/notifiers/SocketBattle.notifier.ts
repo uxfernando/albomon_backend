@@ -4,6 +4,7 @@ import { IBattleNotifier } from "@/domain/ports/IBattleNotifier.port";
 import { SocketServer } from "@/infrastructure/servers/Socket.server";
 import { LOBBY_ID } from "@/shared/constants/battle.constants";
 import { NotifierEvent } from "@/shared/enums/Notifier.enum";
+import { BattleTurnResult } from "@/shared/interfaces/Battle.interface";
 
 export class SocketBattleNotifier implements IBattleNotifier {
   constructor(private readonly socketServer: SocketServer) {}
@@ -22,15 +23,13 @@ export class SocketBattleNotifier implements IBattleNotifier {
     this.io.to(LOBBY_ID).emit(NotifierEvent.BATTLE_START, battle);
   }
 
-  public notifyTurnResult(battle: BattleEntity, damageDealt?: number): void {
+  public notifyTurnResult(turnResult: BattleTurnResult | null): void {
     if (!this.io) return;
-    this.io
-      .to(LOBBY_ID)
-      .emit(NotifierEvent.TURN_RESULT, { battle, damageDealt });
+    this.io.to(LOBBY_ID).emit(NotifierEvent.TURN_RESULT, turnResult);
   }
 
-  public notifyBattleEnd(battle: BattleEntity): void {
+  public notifyBattleEnd(winnerId: string): void {
     if (!this.io) return;
-    this.io.to(LOBBY_ID).emit(NotifierEvent.BATTLE_END, battle);
+    this.io.to(LOBBY_ID).emit(NotifierEvent.BATTLE_END, winnerId);
   }
 }

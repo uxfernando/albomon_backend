@@ -38,9 +38,9 @@ export class BattleController {
   public attack = async (req: Request, res: Response): Promise<void> => {
     try {
       const dto = req.body as AttackDto;
-      const { battle, damageDealt } = await this.attackUseCase.execute(dto);
+      const { battle, turnResult } = await this.attackUseCase.execute(dto);
 
-      successResponse(res, { battle, damageDealt });
+      successResponse(res, { battle, turnResult });
     } catch (error: any) {
       errorResponse(res, error);
     }

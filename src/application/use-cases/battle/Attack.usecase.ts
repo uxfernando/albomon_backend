@@ -19,16 +19,17 @@ export class AttackUseCase {
       throw new DomainError(ErrorMessages.BATTLE_NOT_FOUND);
     }
 
-    const damageDealt = battle.executeAttack(dto.nickname);
+    const turnResult = battle.executeAttack(dto.nickname);
 
     await this.battleRepository.save(battle);
 
-    this.notifier.notifyTurnResult(battle, damageDealt);
+    this.notifier.notifyTurnResult(turnResult);
+    this.notifier.notifyLobbyStatus(battle);
 
     if (battle.status === BattleStatus.Finished) {
-      this.notifier.notifyBattleEnd(battle);
+      this.notifier.notifyBattleEnd(battle.winnerId as string);
     }
 
-    return { battle, damageDealt };
+    return { battle, turnResult };
   }
 }

@@ -2,6 +2,7 @@ import { BattleStatus } from "@/shared/enums/Battle.enum";
 import { PlayerEntity } from "./Player.entity";
 import { DomainError } from "@/shared/errors/AppError";
 import { ErrorMessages } from "@/shared/constants/errorMessages.constants";
+import { BattleTurnResult } from "@/shared/interfaces/Battle.interface";
 
 export class BattleEntity {
   public readonly id: string;
@@ -76,7 +77,7 @@ export class BattleEntity {
     }
   }
 
-  public executeAttack(attackerNickname: string): number {
+  public executeAttack(attackerNickname: string): BattleTurnResult | null {
     if (this.status === BattleStatus.Finished) {
       throw new DomainError(ErrorMessages.BATTLE_FINISHED);
     }
@@ -92,34 +93,35 @@ export class BattleEntity {
     const attacker = this.players.find((p) => p.nickname === attackerNickname);
     const defender = this.players.find((p) => p.nickname !== attackerNickname);
 
-    if (!attacker || !defender) return 0;
+    if (!attacker || !defender) return null;
 
     const attackerPokemon = attacker.activePokemon;
     const defenderPokemon = defender.activePokemon;
 
-    if (!attackerPokemon || !defenderPokemon) return 0;
+    if (!attackerPokemon || !defenderPokemon) return null;
 
-    // Regla de Negocio: Fórmula de Daño
     let damage = attackerPokemon.attack - defenderPokemon.defense;
     if (damage < 1) {
-      damage = 1; // El daño mínimo siempre es 1
+      damage = 1;
     }
 
     const damageDealt = defenderPokemon.applyDamage(damage);
+    const turnResult = {
+      damageDealt,
+      attacker: attacker.nickname,
+      defender: defender.nickname,
+    };
 
-    // Regla de Negocio: Derrota
     if (defenderPokemon.isDefeated) {
-      // El siguiente disponible entra automáticamente al usar get activePokemon() en los siguientes turnos
       if (!defender.hasAvailablePokemon) {
         this.status = BattleStatus.Finished;
         this.winnerId = attacker.nickname;
-        return damageDealt;
+        return turnResult;
       }
     }
 
-    // Pasar turno al otro jugador
     this.currentTurnPlayerId = defender.nickname;
 
-    return damageDealt;
+    return turnResult;
   }
 }
