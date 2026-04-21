@@ -33,6 +33,9 @@ export class DisconnectUseCase {
       // Reset remaining player's ready state
       if (battle.players[0]) {
         battle.players[0].isReady = false;
+        battle.players[0].pokemonTeam.forEach((pokemon) => {
+          pokemon.currentHp = pokemon.hp;
+        });
       }
 
       await this.battleRepository.save(battle);
