@@ -4,6 +4,7 @@ import { MongoDatabase } from "@/infrastructure/database/mongodb";
 
 import { envs } from "@/config/envs";
 import { AppRoutes } from "@/presentation/routes";
+import { setupSocketHandlers } from "@/presentation/handlers/socket.handler";
 
 const main = async () => {
   const PORT = envs.PORT;
@@ -18,6 +19,11 @@ const main = async () => {
 
   const socketServer = SocketServer.getInstance();
   socketServer.init(server.getServer());
+
+  const io = socketServer.getIO();
+  if (io) {
+    setupSocketHandlers(io, socketServer.getConnectedUsers());
+  }
 
   server.start();
 };

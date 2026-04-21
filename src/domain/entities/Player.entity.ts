@@ -4,7 +4,7 @@ import { ErrorMessages } from "@/shared/constants/errorMessages.constants";
 
 export class PlayerEntity {
   public readonly nickname: string;
-  public readonly pokemonTeam: PokemonEntity[];
+  public pokemonTeam: PokemonEntity[];
   public isReady: boolean;
 
   constructor(
