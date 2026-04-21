@@ -2,15 +2,14 @@ import { Server as HttpServer } from "http";
 import { Server as SocketIOServer } from "socket.io";
 import { logger } from "@/infrastructure/utils/logger";
 
-import { setupSocketHandlers } from "@/presentation/handlers/socket.handler";
-
 export class SocketServer {
   private static instance: SocketServer;
   private io!: SocketIOServer;
 
-  // Mapa para guardar los sockets conectados usando el nickname
-  // TODO: Usar una base de datos para almacenar la información de los usuarios
-  // en lugar de usar este mapa en memoria.
+  // IMPORTANT:
+  // Configurar Redis para que se pueda almacenar la información de los usuarios
+  // en lugar de usar este mapa en memoria. Esto se hizo provisionalmente. Para
+  // avanzar en el proyecto, no es lo mejor.
   private connectedUsers: Map<string, string> = new Map();
 
   private constructor() {}
@@ -35,15 +34,14 @@ export class SocketServer {
       },
     });
 
-    this.setupListeners();
     logger.info("Socket.IO server initialized successfully");
-  }
-
-  private setupListeners(): void {
-    setupSocketHandlers(this.io, this.connectedUsers);
   }
 
   public getIO(): SocketIOServer | undefined {
     return this.io;
+  }
+
+  public getConnectedUsers(): Map<string, string> {
+    return this.connectedUsers;
   }
 }

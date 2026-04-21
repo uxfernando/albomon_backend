@@ -2,6 +2,7 @@ import { Server as SocketIOServer, Socket } from "socket.io";
 import { logger } from "@/infrastructure/utils/logger";
 import { LOBBY_ID } from "@/shared/constants/battle.constants";
 import { SocketConnectionSchema } from "@/application/dtos/socket/SocketConnection.dto";
+import { disconnectUseCase } from "@/infrastructure/dependencies/lobby.dependency";
 
 export const setupSocketHandlers = (
   io: SocketIOServer,
@@ -26,9 +27,17 @@ export const setupSocketHandlers = (
       console.log(`Socket ${socket.id} joined room: ${roomId}`);
     });
 
-    socket.on("disconnect", () => {
+    socket.on("disconnect", async () => {
       logger.info(`User disconnected: ${nickname} [${socket.id}]`);
       connectedUsers.delete(nickname);
+      try {
+        await disconnectUseCase.execute(nickname);
+      } catch (error) {
+        logger.error(
+          { err: error },
+          `Error handling disconnect for ${nickname}`,
+        );
+      }
     });
   });
 };

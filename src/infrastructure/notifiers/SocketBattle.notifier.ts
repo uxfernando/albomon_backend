@@ -32,4 +32,9 @@ export class SocketBattleNotifier implements IBattleNotifier {
     if (!this.io) return;
     this.io.to(LOBBY_ID).emit(NotifierEvent.BATTLE_END, winnerId);
   }
+
+  public notifyOpponentDisconnect(nickname: string): void {
+    if (!this.io) return;
+    this.io.to(LOBBY_ID).emit(NotifierEvent.OPPONENT_DISCONNECT, nickname);
+  }
 }

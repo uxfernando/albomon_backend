@@ -6,4 +6,6 @@ export interface IBattleNotifier {
   notifyBattleStart(battle: BattleEntity): void;
   notifyTurnResult(turnResult: BattleTurnResult | null): void;
   notifyBattleEnd(winnerId: string): void;
+
+  notifyOpponentDisconnect(nickname: string): void;
 }
