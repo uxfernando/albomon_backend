@@ -6,13 +6,10 @@ import { BattleController } from "@/presentation/controllers/battle.controller";
 import { SocketBattleNotifier } from "@/infrastructure/notifiers/SocketBattle.notifier";
 import { SocketServer } from "@/infrastructure/servers/Socket.server";
 
-// Repository dependencies
 const battleRepository = new MongoBattleRepository();
 
-// Notifier
 const battleNotifier = new SocketBattleNotifier(SocketServer.getInstance());
 
-// Use cases
 const getBattleDetailsUseCase = new GetBattleDetailsUseCase(battleRepository);
 const attackUseCase = new AttackUseCase(battleRepository, battleNotifier);
 const resetBattleUseCase = new ResetBattleUseCase(
@@ -20,7 +17,6 @@ const resetBattleUseCase = new ResetBattleUseCase(
   battleNotifier,
 );
 
-// Controller dependencies
 export const battleController = new BattleController(
   attackUseCase,
   resetBattleUseCase,

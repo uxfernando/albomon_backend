@@ -7,13 +7,10 @@ import { SocketServer } from "@/infrastructure/servers/Socket.server";
 
 import { DisconnectUseCase } from "@/application/use-cases/lobby/Disconnect.usecase";
 
-// Repository dependencies
 const battleRepository = new MongoBattleRepository();
 
-// Notifier
 const battleNotifier = new SocketBattleNotifier(SocketServer.getInstance());
 
-// Use cases
 const joinLobbyUseCase = new JoinLobbyUseCase(battleRepository, battleNotifier);
 const playerReadyUseCase = new PlayerReadyUseCase(
   battleRepository,
@@ -24,7 +21,6 @@ export const disconnectUseCase = new DisconnectUseCase(
   battleNotifier,
 );
 
-// Controller dependencies
 export const lobbyController = new LobbyController(
   joinLobbyUseCase,
   playerReadyUseCase,
