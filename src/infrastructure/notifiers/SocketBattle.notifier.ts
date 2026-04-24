@@ -18,6 +18,11 @@ export class SocketBattleNotifier implements IBattleNotifier {
     this.io.to(LOBBY_ID).emit(NotifierEvent.LOBBY_STATUS, battle);
   }
 
+  public resetBattle(battle: BattleEntity): void {
+    if (!this.io) return;
+    this.io.to(LOBBY_ID).emit(NotifierEvent.RESET_BATTLE, battle);
+  }
+
   public notifyBattleStart(battle: BattleEntity): void {
     if (!this.io) return;
     this.io.to(LOBBY_ID).emit(NotifierEvent.BATTLE_START, battle);

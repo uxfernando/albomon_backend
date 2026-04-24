@@ -20,7 +20,6 @@ export class DisconnectUseCase {
 
     if (!isPlayerInBattle) return;
 
-    // Remove player
     battle.players = battle.players.filter((p) => p.nickname !== nickname);
 
     if (battle.players.length === 0) {
@@ -30,7 +29,6 @@ export class DisconnectUseCase {
       battle.currentTurnPlayerId = null;
       battle.winnerId = null;
 
-      // Reset remaining player's ready state
       if (battle.players[0]) {
         battle.players[0].isReady = false;
         battle.players[0].pokemonTeam.forEach((pokemon) => {

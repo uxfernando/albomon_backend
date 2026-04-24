@@ -18,14 +18,11 @@ export class JoinLobbyUseCase {
       battle = new BattleEntity(LOBBY_ID);
     }
 
-    // 3. Crear el jugador sin pokemons asignados inicialmente
     const newPlayer = new PlayerEntity(dto.nickname, []);
     battle.addPlayer(newPlayer);
 
-    // 4. Guardamos el estado actualizado en la base de datos
     await this.battleRepository.save(battle);
 
-    // 5. Notificar el estado del lobby
     this.notifier.notifyLobbyStatus(battle);
 
     return battle;
