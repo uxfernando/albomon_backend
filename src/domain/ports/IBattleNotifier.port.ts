@@ -8,4 +8,5 @@ export interface IBattleNotifier {
   notifyBattleEnd(winnerId: string): void;
 
   notifyOpponentDisconnect(nickname: string): void;
+  resetBattle(battle: BattleEntity): void;
 }

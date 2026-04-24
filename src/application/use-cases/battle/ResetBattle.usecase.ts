@@ -26,6 +26,6 @@ export class ResetBattleUseCase {
     }
 
     await this.battleRepository.save(battle);
-    this.notifier.notifyLobbyStatus(battle);
+    this.notifier.resetBattle(battle);
   }
 }
