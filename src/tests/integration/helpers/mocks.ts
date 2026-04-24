@@ -23,6 +23,7 @@ export class MockBattleNotifier implements IBattleNotifier {
   notifyTurnResult(turnResult: BattleTurnResult | null): void {}
   notifyBattleEnd(winnerId: string): void {}
   notifyOpponentDisconnect(): void {}
+  resetBattle(battle: BattleEntity): void {}
 }
 
 export const createMockPokemon = (
