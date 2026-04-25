@@ -7,9 +7,8 @@ export class SocketServer {
   private io!: SocketIOServer;
 
   // IMPORTANT:
-  // Configurar Redis para que se pueda almacenar la información de los usuarios
-  // en lugar de usar este mapa en memoria. Esto se hizo provisionalmente. Para
-  // avanzar en el proyecto, no es lo mejor.
+  // Configure Redis to store user information instead of using this in-memory map.
+  // This was done temporarily. It is not the best approach for moving forward with the project.
   private connectedUsers: Map<string, string> = new Map();
 
   private constructor() {}
@@ -23,7 +22,7 @@ export class SocketServer {
 
   public init(server: HttpServer): void {
     if (this.io) {
-      logger.warn("SocketServer is already initialized.");
+      logger.warn("[Socket.io] Server is already initialized.");
       return;
     }
 
@@ -34,7 +33,7 @@ export class SocketServer {
       },
     });
 
-    logger.info("Socket.IO server initialized successfully");
+    logger.info("[Socket.io] server initialized successfully");
   }
 
   public getIO(): SocketIOServer | undefined {
