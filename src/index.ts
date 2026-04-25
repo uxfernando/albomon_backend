@@ -1,6 +1,7 @@
 import { ExpressServer } from "@/infrastructure/servers/Express.server";
 import { SocketServer } from "@/infrastructure/servers/Socket.server";
 import { MongoDatabase } from "@/infrastructure/database/mongodb";
+import { battleCronJobs } from "@/infrastructure/dependencies/cron.dependency";
 
 import { envs } from "@/config/envs";
 import { AppRoutes } from "@/presentation/routes";
@@ -26,6 +27,7 @@ const main = async () => {
   }
 
   server.start();
+  battleCronJobs.start();
 };
 
 main();

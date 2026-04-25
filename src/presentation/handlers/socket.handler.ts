@@ -13,7 +13,9 @@ export const setupSocketHandlers = (
     const validation = SocketConnectionSchema.safeParse(query);
 
     if (!validation.success) {
-      logger.warn(`Connection rejected: [${socket.id}]`);
+      logger.warn(
+        `[Socket.io] Connection rejected: [${socket.id}] due to invalid query`,
+      );
       socket.disconnect();
       return;
     }
@@ -24,18 +26,20 @@ export const setupSocketHandlers = (
 
     socket.on("join-room", (roomId) => {
       socket.join(LOBBY_ID);
-      console.log(`Socket ${socket.id} joined room: ${roomId}`);
+      logger.info(
+        `[Socket.io] Socket ${socket.id} as ${nickname} joined room: ${roomId}`,
+      );
     });
 
     socket.on("disconnect", async () => {
-      logger.info(`User disconnected: ${nickname} [${socket.id}]`);
+      logger.info(`[Socket.io] User disconnected: ${nickname} [${socket.id}]`);
       connectedUsers.delete(nickname);
       try {
         await disconnectUseCase.execute(nickname);
       } catch (error) {
         logger.error(
           { err: error },
-          `Error handling disconnect for ${nickname}`,
+          `[Socket.io] Error handling disconnect for ${nickname}`,
         );
       }
     });

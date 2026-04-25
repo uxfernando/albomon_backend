@@ -7,9 +7,9 @@ import { LOBBY_ID } from "@/shared/constants/battle.constants";
 import { ErrorMessages } from "@/shared/constants/errorMessages.constants";
 import { AssignPokemonsDto } from "@/application/dtos/pokemon/AssignPokemons.dto";
 
-// IMPORTANT: Se debe usar Redis para manejar la cola de asignación de Pokémon
-// para evitar condiciones de concurrencia en un mismo lobby. Por motivos de la
-// prueba y tiempos se usará esto.
+// IMPORTANT: Redis should be used to handle the Pokémon assignment queue
+// to avoid concurrency conditions in the same lobby. For test and time reasons
+// this will be used.
 let assignmentQueue = Promise.resolve<any>(null);
 
 export class AssignPokemonsUseCase {

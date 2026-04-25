@@ -51,10 +51,10 @@ export class ExpressServer {
 
   public start(): void {
     this.server.listen(this.port, () => {
-      logger.info(`Server is running at:`);
-      logger.info(`- Local:   http://localhost:${this.port}`);
+      logger.info("[Express] Server is running at:");
+      logger.info("[Express] Local:   http://localhost:${this.port}");
       if (this.networkIp) {
-        logger.info(`- Network: http://${this.networkIp}:${this.port}`);
+        logger.info("[Express] Network: http://${this.networkIp}:${this.port}");
       }
     });
   }
